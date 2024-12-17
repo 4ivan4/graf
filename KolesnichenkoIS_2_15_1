@@ -1,0 +1,53 @@
+using System;
+class Heap
+{
+    // Алгоритм Heapify для преобразования поддерева в кучу
+    public static void Heapify(int[] arr, int n, int i)
+    {
+        int largest = i; // Инициализируем наибольший элемент как корень
+        int left = 2 * i + 1; // Левый дочерний узел
+        int right = 2 * i + 2; // Правый дочерний узел
+        // Если левый дочерний узел больше корня
+        if (left < n && arr[left] > arr[largest])
+            largest = left;
+        // Если правый дочерний узел больше, чем самый большой элемент на данный момент
+        if (right < n && arr[right] > arr[largest])
+            largest = right;
+        // Если самый большой элемент не корень
+        if (largest != i)
+        {
+            // Меняем местами текущий элемент и наибольший элемент
+            int swap = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = swap;
+            // Рекурсивно применяем Heapify к затронутому поддереву
+            Heapify(arr, n, largest);
+        }
+    }
+    // Алгоритм Build Heap для построения кучи из массива
+    public static void BuildHeap(int[] arr)
+    {
+        int n = arr.Length;
+        // Начинаем с последнего нелистового узла
+        for (int i = n / 2 - 1; i >= 0; i--)
+            Heapify(arr, n, i);
+    }
+    // Метод для вывода массива
+    public static void PrintArray(int[] arr)
+    {
+        foreach (int i in arr)
+            Console.Write(i + " ");
+        Console.WriteLine();
+    }
+    // Основной метод
+    public static void Main(string[] args)
+    {
+        int[] arr = { 12, 11, 13, 5, 6, 7 };
+        Console.WriteLine("Исходный массив:");
+        PrintArray(arr);
+        // Построение кучи
+        BuildHeap(arr);
+        Console.WriteLine("Максимальная куча:");
+        PrintArray(arr);
+    }
+}
